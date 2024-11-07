@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Institutes Statistics</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f9f9f9;
+        color: #333;
+      }
+      .header {
+        background-color: #ff6600;
+        color: #fff;
+        text-align: center;
+        padding: 1.5rem;
+        font-size: 1.5rem;
+        font-weight: bold;
+      }
+      .container {
+        padding: 1rem;
+        max-width: 900px;
+        margin: auto;
+      }
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 1rem;
+        margin: 1rem 0;
+      }
+      .stat-card {
+        background-color: #fff;
+        border-radius: 10px;
+        padding: 1rem;
+        text-align: center;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+      .stat-card h2 {
+        font-size: 1.4rem;
+        color: #ff6600;
+        margin-bottom: 0.5rem;
+      }
+      .stat-card p {
+        color: #777;
+        font-size: 0.9rem;
+      }
+      .chart-container {
+        background-color: #fff;
+        border-radius: 10px;
+        padding: 1rem;
+        margin-top: 1rem;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+      .chart-title {
+        text-align: center;
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+        font-weight: bold;
+        color: #333;
+      }
+      .drilldown-link {
+        display: block;
+        text-align: center;
+        margin-top: 1rem;
+        color: #ff6600;
+        font-weight: bold;
+        text-decoration: none;
+      }
+      .drilldown-link:hover {
+        text-decoration: underline;
+      }
+      @media (max-width: 600px) {
+        .header {
+          font-size: 1.2rem;
+        }
+        .stat-card h2 {
+          font-size: 1.2rem;
+        }
+        .chart-title {
+          font-size: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">Institutes Statistics</div>
+
+    <div class="container">
+      <!-- Summary Statistics Grid -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <h2>10,427</h2>
+          <p>Total Institutions</p>
+        </div>
+        <div class="stat-card">
+          <h2>559</h2>
+          <p>New Institutions</p>
+        </div>
+        <div class="stat-card">
+          <h2>89</h2>
+          <p>Closed Institutions</p>
+        </div>
+        <div class="stat-card">
+          <h2>6,785,870</h2>
+          <p>Total Intake</p>
+        </div>
+        <div class="stat-card">
+          <h2>1,578,712</h2>
+          <p>Placement</p>
+        </div>
+      </div>
+
+      <!-- Bar Chart for Approved Intake / Enrollment -->
+      <div class="chart-container">
+        <div class="chart-title">Approved Intake / Enrollment</div>
+        <canvas id="barChart"></canvas>
+      </div>
+
+      <!-- Donut Chart for Institute Enrollment by Year -->
+      <div class="chart-container">
+        <div class="chart-title">Institute Enrollment by Year</div>
+        <canvas id="donutChart"></canvas>
+      </div>
+
+      <!-- New Pie Chart for Placement Data by Category -->
+      <div class="chart-container">
+        <div class="chart-title">Placement by Course Category</div>
+        <canvas id="pieChart"></canvas>
+        <a href="placement-details.html" class="drilldown-link"
+          >View Detailed Placement Data</a
+        >
+      </div>
+    </div>
+
+    <script>
+      // Bar Chart for Approved Intake / Enrollment
+      const barCtx = document.getElementById("barChart").getContext("2d");
+      const barChart = new Chart(barCtx, {
+        type: "bar",
+        data: {
+          labels: [
+            "2015-2016",
+            "2016-2017",
+            "2017-2018",
+            "2018-2019",
+            "2019-2020",
+            "2020-2021",
+          ],
+          datasets: [
+            {
+              label: "Placement",
+              backgroundColor: "#ff9900",
+              data: [1578712, 2478927, 3799647, 4781560, 5548394, 6231457],
+            },
+            {
+              label: "Passed",
+              backgroundColor: "#00cc66",
+              data: [1254321, 1892837, 2893727, 3674821, 4519823, 5231821],
+            },
+            {
+              label: "Enrollment",
+              backgroundColor: "#007bff",
+              data: [2049834, 2849837, 3642837, 4448283, 5028473, 6028473],
+            },
+            {
+              label: "Intake",
+              backgroundColor: "#ff3300",
+              data: [2783746, 3482736, 4298372, 4792384, 5427384, 6072837],
+            },
+          ],
+        },
+        options: { responsive: true, plugins: { legend: { position: "top" } } },
+      });
+
+      // Donut Chart for Institute Enrollment by Year
+      const donutCtx = document.getElementById("donutChart").getContext("2d");
+      const donutChart = new Chart(donutCtx, {
+        type: "doughnut",
+        data: {
+          labels: [
+            "2015-2016",
+            "2016-2017",
+            "2017-2018",
+            "2018-2019",
+            "2019-2020",
+            "2020-2021",
+          ],
+          datasets: [
+            {
+              data: [10, 20, 30, 25, 15, 18],
+              backgroundColor: [
+                "#003f5c",
+                "#58508d",
+                "#bc5090",
+                "#ff6361",
+                "#ffa600",
+                "#ff9900",
+              ],
+            },
+          ],
+        },
+        options: { responsive: true, plugins: { legend: { position: "top" } } },
+      });
+
+      // New Pie Chart for Placement by Course Category
+      const pieCtx = document.getElementById("pieChart").getContext("2d");
+      const pieChart = new Chart(pieCtx, {
+        type: "pie",
+        data: {
+          labels: ["Engineering", "Business", "Arts", "Science", "Medical"],
+          datasets: [
+            {
+              data: [40, 25, 15, 10, 10],
+              backgroundColor: [
+                "#ff6600",
+                "#007bff",
+                "#00cc66",
+                "#ffa600",
+                "#ff3300",
+              ],
+            },
+          ],
+        },
+        options: { responsive: true, plugins: { legend: { position: "top" } } },
+      });
+    </script>
+  </body>
+</html>
